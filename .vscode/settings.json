@@ -1,0 +1,8 @@
+{
+    "python.defaultInterpreterPath": "/Users/ranamuhammadammarhussain/Desktop/langchain/myenv/bin/python",
+    "python.pythonPath": "/Users/ranamuhammadammarhussain/Desktop/langchain/myenv/bin/python",
+    "python.analysis.extraPaths": [
+        "/Users/ranamuhammadammarhussain/Desktop/langchain/myenv/lib/python3.12/site-packages"
+    ],
+    "python.analysis.typeCheckingMode": "basic"
+}

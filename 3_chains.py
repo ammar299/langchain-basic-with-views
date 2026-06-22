@@ -16,7 +16,7 @@ load_dotenv()
 # Initialize LLM using your setup
 llm = ChatGoogleGenerativeAI(
     model="gemini-3-flash-preview", 
-    temperature=0.0
+    temperature=0.5
 )
 
 # UI Styling
