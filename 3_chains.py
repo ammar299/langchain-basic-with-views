@@ -1,7 +1,12 @@
 import os
 import certifi
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+except Exception:
+    def load_dotenv():
+        return None
 import streamlit as st
+from streamlit_config import init_google_api_key
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser, PydanticOutputParser
@@ -12,15 +17,21 @@ from typing import Literal
 # Setup Environment
 os.environ['SSL_CERT_FILE'] = certifi.where()
 load_dotenv()
+init_google_api_key()
 
 # Initialize LLM using your setup
-llm = ChatGoogleGenerativeAI(
-    model="gemini-3-flash-preview", 
-    temperature=0.5
-)
+try:
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-3-flash-preview", 
+        temperature=0.5
+    )
+except Exception as e:
+    if "API key" in str(e):
+        st.error("⚠️ Google API key not set. Please set GOOGLE_API_KEY environment variable or add it to Streamlit Secrets.")
+        st.stop()
+    raise
 
 # UI Styling
-st.set_page_config(page_title="LangChain Chains Explained", page_icon="🔗", layout="wide")
 st.title("🔗 Understanding LangChain Chains")
 st.markdown("This app explains the 4 fundamental types of chains in LangChain: **Normal, Sequential, Parallel, and Conditional**, adapted to use Google Gemini.")
 

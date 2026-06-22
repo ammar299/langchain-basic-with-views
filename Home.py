@@ -1,8 +1,18 @@
+import os
 import streamlit as st
+from streamlit_config import init_google_api_key
+
+# Must be called first before any other Streamlit commands
+st.set_page_config(page_title="LangChain Portal", page_icon="🚀", layout="wide")
+
+# If running on Streamlit hosting, copy secret into environment variable
+try:
+    init_google_api_key()
+except Exception:
+    pass
 
 # Home page rendering function
 def show_home():
-    st.set_page_config(page_title="LangChain Portal", page_icon="🚀", layout="wide")
     
     # Custom CSS for homepage
     st.markdown("""
@@ -24,9 +34,7 @@ def show_home():
         margin: 0;
         font-weight: 800;
         font-size: 2.6rem;
-        background: linear-gradient(90deg, #10b981, #34d399);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #10b981;
     }
     .card-box {
         background: rgba(255, 255, 255, 0.02);
@@ -49,14 +57,25 @@ def show_home():
         font-size: 1.3rem;
         font-weight: 600;
         margin-bottom: 0.5rem;
-        color: #f8fafc;
+        color: var(--text-color, #f8fafc);
     }
     .card-desc {
         font-size: 0.92rem;
-        color: #94a3b8;
+        color: var(--text-secondary, #94a3b8);
         line-height: 1.5;
         margin-bottom: 0.5rem;
         flex-grow: 1;
+    }
+    @media (prefers-color-scheme: light) {
+        .card-title {
+            color: #1a202c;
+        }
+        .card-desc {
+            color: #4a5568;
+        }
+        .main-header h1 {
+            color: #059669;
+        }
     }
     </style>
     """, unsafe_allow_html=True)
