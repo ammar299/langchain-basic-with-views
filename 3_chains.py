@@ -6,6 +6,7 @@ except Exception:
     def load_dotenv():
         return None
 import streamlit as st
+from streamlit_config import init_google_api_key
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser, PydanticOutputParser
@@ -16,6 +17,7 @@ from typing import Literal
 # Setup Environment
 os.environ['SSL_CERT_FILE'] = certifi.where()
 load_dotenv()
+init_google_api_key()
 
 # Initialize LLM using your setup
 try:

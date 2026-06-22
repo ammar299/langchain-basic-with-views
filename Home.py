@@ -1,13 +1,13 @@
 import os
 import streamlit as st
+from streamlit_config import init_google_api_key
 
 # Must be called first before any other Streamlit commands
 st.set_page_config(page_title="LangChain Portal", page_icon="🚀", layout="wide")
 
 # If running on Streamlit hosting, copy secret into environment variable
 try:
-    if "GOOGLE_API_KEY" in st.secrets:
-        os.environ.setdefault("GOOGLE_API_KEY", st.secrets["GOOGLE_API_KEY"])
+    init_google_api_key()
 except Exception:
     pass
 

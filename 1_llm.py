@@ -8,10 +8,12 @@ except Exception:
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.output_parsers import StrOutputParser
 import streamlit as st
+from streamlit_config import init_google_api_key
 
 # Setup
 os.environ['SSL_CERT_FILE'] = certifi.where()
 load_dotenv()
+init_google_api_key()
 
 # UI Styling
 st.title("🏛️ World Capital Finder")

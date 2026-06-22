@@ -9,10 +9,12 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import PromptTemplate
 import streamlit as st
+from streamlit_config import init_google_api_key
 
 # Setup
 os.environ['SSL_CERT_FILE'] = certifi.where()
 load_dotenv()
+init_google_api_key()
 
 # UI Styling
 st.title("🎬 Movie Info Finder")
