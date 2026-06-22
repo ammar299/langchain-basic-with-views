@@ -1,6 +1,10 @@
 import os
 import certifi
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+except Exception:
+    def load_dotenv():
+        return None
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import PromptTemplate
@@ -11,17 +15,21 @@ os.environ['SSL_CERT_FILE'] = certifi.where()
 load_dotenv()
 
 # UI Styling
-st.set_page_config(page_title="Movie Info Finder", page_icon="🎬", layout="wide")
 st.title("🎬 Movie Info Finder")
 st.markdown("Enter a movie name below to get detailed information about it!")
 
 movie_name = st.text_input("Movie Name", placeholder="e.g. Avatar")
 
 def get_movie_info(movie):
-    llm = ChatGoogleGenerativeAI(
-        model="gemini-3-flash-preview", 
-        temperature=0.2,
-    )
+    try:
+        llm = ChatGoogleGenerativeAI(
+            model="gemini-3-flash-preview", 
+            temperature=0.2,
+        )
+    except Exception as e:
+        if "API key" in str(e):
+            return {"error": "⚠️ Google API key not set. Set GOOGLE_API_KEY environment variable or Streamlit secret."}
+        raise
     
     parser = JsonOutputParser()
     

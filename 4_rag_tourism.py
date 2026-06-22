@@ -1,6 +1,10 @@
 import os
 import certifi
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+except Exception:
+    def load_dotenv():
+        return None
 import streamlit as st
 from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain_core.prompts import PromptTemplate
@@ -15,10 +19,16 @@ load_dotenv()
 # Initialize LLMs & Embeddings
 @st.cache_resource
 def get_llm():
-    return ChatGoogleGenerativeAI(
-        model="gemini-3-flash-preview", 
-        temperature=0.2
-    )
+    try:
+        return ChatGoogleGenerativeAI(
+            model="gemini-3-flash-preview", 
+            temperature=0.2
+        )
+    except Exception as e:
+        if "API key" in str(e):
+            st.error("⚠️ Google API key not set. Please set GOOGLE_API_KEY environment variable or add it to Streamlit Secrets.")
+            st.stop()
+        raise
 
 # Static Pakistan Tourism Corpus
 TOURISM_DATABASE = [
@@ -190,8 +200,6 @@ def get_vector_store():
     return vector_store
 
 # UI Styling
-st.set_page_config(page_title="RAG Pakistan Tourism Assistant", page_icon="🇵🇰", layout="wide")
-
 # Injecting Custom CSS for premium styling
 st.markdown("""
 <style>
